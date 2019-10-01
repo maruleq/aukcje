@@ -1,3 +1,7 @@
-index:
+auction_index:
     path: /
-    controller: App\Controller\AuctionController::index
+    controller: App\Controller\AuctionController::indexAction
+
+auction_details:
+    path: /details
+    controller: App\Controller\AuctionController::detailsAction
