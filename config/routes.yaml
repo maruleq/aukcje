@@ -3,5 +3,5 @@ auction_index:
     controller: App\Controller\AuctionController::indexAction
 
 auction_details:
-    path: /details
+    path: /details/{id}
     controller: App\Controller\AuctionController::detailsAction

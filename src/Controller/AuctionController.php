@@ -18,7 +18,7 @@ class AuctionController extends AbstractController
         ]);
     }
     
-    public function detailsAction()
+    public function detailsAction($id)
     {
         return $this->render('auction/details.html.twig');
     }
