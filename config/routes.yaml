@@ -5,3 +5,7 @@ auction_index:
 auction_details:
     path: /details/{id}
     controller: App\Controller\AuctionController::detailsAction
+    
+auction_add:
+    path: /auction/add
+    controller: App\Controller\AuctionController::addAction
