@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AuctionController!{% endblock %}
-
 {% block body %}
+    
+<div class="container">
+    <h1>Lista aukcji</h1>
 
-<div class="example-wrapper">
-    <h1> {{ title }} ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/marek/Projekty/aukcje-symfony4/src/Controller/AuctionController.php'|file_link(0) }}">src/Controller/AuctionController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/marek/Projekty/aukcje-symfony4/templates/auction/index.html.twig'|file_link(0) }}">templates/auction/index.html.twig</a></code></li>
-    </ul>
+    {% for auction in auctions %}
+        <h3><a href="{{ url("auction_details", {"id": auction.id}) }}">{{ auction.title }}</a></h3>
+        <p>{{ auction.description }}</p>
+        <p>{{ auction.price }}</p>
+    {% endfor %}
 </div>
+    
 {% endblock %}
