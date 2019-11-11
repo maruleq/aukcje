@@ -3,8 +3,11 @@
 {% block body %}
 
 <div class="container">
-    <h1>Szczegóły aukcji ✅</h1>
-
+    <h1>{{ auction.title }} ✅</h1>
+    <p>{{ auction.description }}</p>
+    <p>{{ auction.price }}</p>
+    
+    <a href="{{ url('auction_index') }}">Powrót</a>
 </div>
     
 {% endblock %}
