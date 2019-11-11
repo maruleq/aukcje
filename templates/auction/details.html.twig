@@ -3,11 +3,18 @@
 {% block body %}
 
 <div class="container">
-    <h1>{{ auction.title }} ✅</h1>
-    <p>{{ auction.description }}</p>
-    <p>{{ auction.price }}</p>
-    
-    <a href="{{ url('auction_index') }}">Powrót</a>
+    <div class="card p-3">
+            <div class="card-header p-4">
+                <h4>{{ auction.title }}</a></h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ auction.description}}</p>               
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cena: {{ auction.price }} PLN</li>               
+            </ul>
+        </div> 
+    <a href="{{ url('auction_index') }}"><button type="button" class="btn btn-outline-primary">Powrót</button></a>
 </div>
     
 {% endblock %}

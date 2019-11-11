@@ -6,9 +6,17 @@
     <h1>Lista aukcji</h1>
 
     {% for auction in auctions %}
-        <h3><a href="{{ url("auction_details", {"id": auction.id}) }}">{{ auction.title }}</a></h3>
-        <p>{{ auction.description }}</p>
-        <p>{{ auction.price }}</p>
+        <div class="card p-3">
+            <div class="card-header p-4">
+                <h4><a href="{{ url("auction_details", {"id": auction.id}) }}">{{ auction.title }}</a></h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ auction.description}}</p>               
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cena: {{ auction.price }} PLN</li>               
+            </ul>
+        </div>  
     {% endfor %}
 </div>
     
