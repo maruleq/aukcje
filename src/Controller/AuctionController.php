@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * Aplikacja Aukcje została zbudowana podczas kursu
+ * Symphony 3 na strefakursow.pl i następnie dostosowana do Symfony 4
+ */
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -9,11 +14,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\AuctionType;
 use App\Entity\Auction;
 
+/**
+ * Szczegóły AuctionController
+ *
+ * @author Marek Grabowski
+ */
 class AuctionController extends AbstractController
 {
-
+    
+    /*
+     * Wyświetlanie wszystkich aukcji
+     */
     public function indexAction()
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -24,26 +38,32 @@ class AuctionController extends AbstractController
         ]);
     }
     
+    /*
+     * Wyświetlanie szczegółów aukcji
+     */
     public function detailsAction($id)
     {
         return $this->render('auction/details.html.twig');
     }
     
+    /*
+     * Formularz dodawania aukcji
+     */
     public function addAction(Request $request)
     {
         $auction = new Auction();
         
-        $form = $this->createFormBuilder($auction)
-                ->add('title', TextType::class)
-                ->add('description', TextareaType::class)
-                ->add('price', NumberType::class)
-                ->add('submit', SubmitType::class)
-                ->getForm();
+        /*
+         * Stworzenie formularza
+         */
+        $form = $this->createForm(AuctionType::class, $auction);
         
+        /*
+         * Przetworzenie danych z formularza
+         * i przekierowanie do widoku wszystkich aukcji
+         */
         if ($request->isMethod('post')){
             $form->handleRequest($request);
-            
-            $auction = $form->getData();
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($auction);
@@ -52,6 +72,9 @@ class AuctionController extends AbstractController
             return $this->redirectToRoute('auction_index');
         }
         
+        /*
+         * Wyswietlenie formularza
+         */
         return $this->render('auction/add.html.twig', [
             'form' => $form->createView()
         ]);
