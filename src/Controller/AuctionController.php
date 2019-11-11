@@ -10,10 +10,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\AuctionType;
 use App\Entity\Auction;
 
@@ -28,8 +24,8 @@ class AuctionController extends AbstractController
     /*
      * Wyświetlanie wszystkich aukcji
      */
-    public function indexAction()
-    {
+    public function indexAction() {
+        
         $entityManager = $this->getDoctrine()->getManager();
         $auctions = $entityManager->getRepository(Auction::class)->findAll();
         
@@ -41,16 +37,16 @@ class AuctionController extends AbstractController
     /*
      * Wyświetlanie szczegółów aukcji
      */
-    public function detailsAction($id)
-    {
-        return $this->render('auction/details.html.twig');
+    public function detailsAction(Auction $auction) {
+        
+        return $this->render('auction/details.html.twig', ['auction' => $auction]);
     }
     
     /*
      * Formularz dodawania aukcji
      */
-    public function addAction(Request $request)
-    {
+    public function addAction(Request $request) {
+        
         $auction = new Auction();
         
         /*
@@ -63,6 +59,7 @@ class AuctionController extends AbstractController
          * i przekierowanie do widoku wszystkich aukcji
          */
         if ($request->isMethod('post')){
+            
             $form->handleRequest($request);
             
             $entityManager = $this->getDoctrine()->getManager();
