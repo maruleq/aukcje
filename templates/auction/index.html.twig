@@ -3,8 +3,9 @@
 {% block body %}
     
 <div class="container">
-    <h1>Lista aukcji</h1>
-
+    <h1 class="text-center" style="margin-top: 10px"><b>Lista aukcji</b></h1>
+    </br>
+    {# Wyświetlanie wszystkich aktywnych aukcji #}
     {% for auction in auctions %}
         <div class="card p-3">
             <div class="card-header p-4">
@@ -14,9 +15,16 @@
                 <p class="card-text">{{ auction.description}}</p>               
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Cena: {{ auction.price }} PLN</li>               
+                <li class="list-group-item">Cena: {{ auction.price }} PLN</li>
+                <li class="list-group-item">Cena wywoławcza: {{ auction.startingPrice }} PLN</li>
+                <li class="list-group-item">Zakończenie aukcji: {{ auction.expiresAt | date('Y-m-d H:i:s') }}</li>
             </ul>
-        </div>  
+        </div>
+    {% else %}
+        {# Jeśli brak aktywnych aukcji #}
+        <div class="card-body bg-warning text-center">
+            <h3>Brak aktywnych aukcji...</h3>
+        </div>
     {% endfor %}
 </div>
     
