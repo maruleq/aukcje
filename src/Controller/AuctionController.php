@@ -62,6 +62,11 @@ class AuctionController extends AbstractController
             
             $form->handleRequest($request);
             
+            $auction
+                    ->setCreatedAt(new \DateTime())
+                    ->setUpdatedAt(new \DateTime())
+                    ->setStatus(Auction::STATUS_ACTIVE);
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($auction);
             $entityManager->flush();
