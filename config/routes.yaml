@@ -9,3 +9,7 @@ auction_details:
 auction_add:
     path: /auction/add
     controller: App\Controller\AuctionController::addAction
+
+auction_edit:
+    path: /auction/edit/{id}
+    controller: App\Controller\AuctionController::editAction
