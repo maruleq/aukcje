@@ -8,7 +8,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\AuctionType;
 use App\Entity\Auction;
@@ -39,7 +38,8 @@ class AuctionController extends AbstractController
      */
     public function detailsAction(Auction $auction) {
         
-        return $this->render('auction/details.html.twig', ['auction' => $auction]);
+        return $this->render('auction/details.html.twig', [
+            'auction' => $auction]);
     }
     
     /*
