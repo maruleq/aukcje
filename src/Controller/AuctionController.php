@@ -56,7 +56,7 @@ class AuctionController extends AbstractController
         
         /*
          * Przetworzenie danych z formularza
-         * i przekierowanie do widoku wszystkich aukcji
+         * i przekierowanie do widoku aukcji
          */
         if ($request->isMethod('post')){
             
@@ -82,10 +82,20 @@ class AuctionController extends AbstractController
         ]);
     }
     
+    /*
+     * Formularz edycji aukcji
+     */
     public function editAction(Request $request, Auction $auction) {
         
+        /*
+         * Stworzenie formularza
+         */
         $form = $this->createForm(AuctionType::class, $auction);
         
+        /*
+         * Przetworzenie danych z formularza
+         * i przekierowanie do widoku aukcji
+         */
         if ($request->isMethod('post')) {
             $form->handleRequest($request);
             
@@ -98,6 +108,9 @@ class AuctionController extends AbstractController
             return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
         }
         
+        /*
+         * Wyswietlenie formularza
+         */
         return $this->render('auction/edit.html.twig', ['form' => $form->createView()]);
         
     }
