@@ -71,7 +71,7 @@ class AuctionController extends AbstractController
             $entityManager->persist($auction);
             $entityManager->flush();
             
-            return $this->redirectToRoute('auction_index');
+            return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
         }
         
         /*
@@ -80,5 +80,25 @@ class AuctionController extends AbstractController
         return $this->render('auction/add.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+    
+    public function editAction(Request $request, Auction $auction) {
+        
+        $form = $this->createForm(AuctionType::class, $auction);
+        
+        if ($request->isMethod('post')) {
+            $form->handleRequest($request);
+            
+            $auction->setUpdatedAt(new \DateTime());
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($auction);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
+        }
+        
+        return $this->render('auction/edit.html.twig', ['form' => $form->createView()]);
+        
     }
 }
