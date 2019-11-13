@@ -3,7 +3,7 @@ auction_index:
     controller: App\Controller\AuctionController::indexAction
 
 auction_details:
-    path: /details/{id}
+    path: auction/details/{id}
     controller: App\Controller\AuctionController::detailsAction
     
 auction_add:
@@ -18,3 +18,8 @@ auction_delete:
     path: /auction/delete/{id}
     methods:  [DELETE]
     controller: App\Controller\AuctionController::deleteAction
+
+auction_finish:
+    path: /auction/finish/{id}
+    methods:  [POST]
+    controller: App\Controller\AuctionController::finishAction
