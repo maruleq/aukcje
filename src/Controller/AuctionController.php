@@ -56,10 +56,19 @@ class AuctionController extends AbstractController
                 ->add('submit', SubmitType::class, ['label' => 'Zakończ'])
                 ->getForm();
         
+        /*
+         * Formularz zabezpieczający przycisk "Kup"
+         */
+        $buyForm = $this->createFormBuilder()
+                ->setAction($this->generateUrl('offer_buy', ['id' => $auction->getId()]))
+                ->add('submit', SubmitType::class, ['label' => 'Kup'])
+                ->getForm();
+        
         return $this->render('auction/details.html.twig', [
             'auction' => $auction,
             'deleteForm' => $deleteForm->createView(),
-            'finishForm' => $finishForm->createView()
+            'finishForm' => $finishForm->createView(),
+            'buyForm' => $buyForm->createView()
         ]);
     }
     

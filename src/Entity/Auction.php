@@ -88,7 +88,7 @@ class Auction
     /**
      * @var Offer[]
      * 
-     * @ORM\OneToMany(targetEntity="offer", mappedBy="auction")
+     * @ORM\OneToMany(targetEntity="Offer", mappedBy="auction")
      */
     private $offers;
     

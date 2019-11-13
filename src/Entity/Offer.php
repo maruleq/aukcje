@@ -3,12 +3,19 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ * Offer
+ *
+ * @ORM\Table(name="offer")
  * @ORM\Entity(repositoryClass="App\Repository\OfferRepository")
  */
 class Offer
 {
+    const TYPE_BUY = "buy";
+    const TYPE_AUCTION = "auction";
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -28,11 +35,13 @@ class Offer
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $created_at;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
      */
     private $update_at;
     
