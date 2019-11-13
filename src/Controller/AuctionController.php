@@ -43,7 +43,6 @@ class AuctionController extends AbstractController
 
             return $this->render('auction/finished.html.twig', ['auction' => $auction]);
         }
-        
         /*
          * Formularz zabezpieczający przycisk "Usuń"
          */
@@ -52,7 +51,6 @@ class AuctionController extends AbstractController
                 ->setMethod(Request::METHOD_DELETE)
                 ->add('submit', SubmitType::class, ['label' => 'Usuń'])
                 ->getForm();
-        
         /*
          * Formularz zabezpieczający przycisk "Zakończ"
          */
@@ -60,7 +58,6 @@ class AuctionController extends AbstractController
                 ->setAction($this->generateUrl('auction_finish', ['id' => $auction->getId()]))
                 ->add('submit', SubmitType::class, ['label' => 'Zakończ'])
                 ->getForm();
-        
         /*
          * Formularz zabezpieczający przycisk "Kup"
          */
@@ -96,10 +93,7 @@ class AuctionController extends AbstractController
         if ($request->isMethod('post')){
             
             $form->handleRequest($request);
-            
-            $auction
-                    ->setStatus(Auction::STATUS_ACTIVE);
-            
+            $auction->setStatus(Auction::STATUS_ACTIVE);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($auction);
             $entityManager->flush();
@@ -131,7 +125,6 @@ class AuctionController extends AbstractController
          */
         if ($request->isMethod('post')) {
             $form->handleRequest($request);
-            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($auction);
             $entityManager->flush();
@@ -168,9 +161,8 @@ class AuctionController extends AbstractController
     public function finishAction(Auction $auction) {
         
         $auction
-                ->setExpiresAt(new \DateTime())
-                ->setStatus(Auction::STATUS_FINISHED);
-        
+               ->setExpiresAt(new \DateTime())
+               ->setStatus(Auction::STATUS_FINISHED);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($auction);
         $entityManager->flush();
