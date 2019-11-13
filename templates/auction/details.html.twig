@@ -14,7 +14,15 @@
             <li class="list-group-item">Cena wywoławcza: {{ auction.startingPrice }} PLN</li>
             <li class="list-group-item">Zakończenie aukcji: {{ auction.expiresAt | date('Y-m-d H:i:s') }}</li>
         </ul>
-    </div> 
+    </div>
+    {# Lista złożonych ofert #}
+    <div class="card p-3">
+        <ul class="list-group list-group-flush">
+            {% for offer in auction.offers %}
+                <li class="list-group-item">Oferta {{ offer.price }} PLN, złożona dnia {{ offer.createdAt | date('Y-m-d H:i:s') }}</li>
+            {% endfor %}
+        </ul>
+    </div>    
     
     {# Grupa przycisków do zarządzania aukcją #}
     <a href="{{ url('auction_index') }}"><button type="button" class="btn btn-primary float-left">Powrót</button></a>
