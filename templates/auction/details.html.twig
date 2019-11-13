@@ -17,6 +17,8 @@
             </ul>
         </div> 
     <a href="{{ url('auction_index') }}"><button type="button" class="btn btn-outline-primary">Powrót</button></a>
+    {# Przycisk "Usuń" zabezpieczony formularzem #}
+    {{ form(deleteForm) }}
 </div>
     
 {% endblock %}

@@ -9,6 +9,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\AuctionType;
 use App\Entity\Auction;
 
@@ -38,8 +39,17 @@ class AuctionController extends AbstractController
      */
     public function detailsAction(Auction $auction) {
         
+        /*
+         * Formularz zabezpieczający przycisk "Usuń"
+         */
+        $deleteForm = $this->createFormBuilder()
+                ->setAction($this->generateUrl('auction_delete', ['id' => $auction->getId()]))
+                ->setMethod(Request::METHOD_DELETE)
+                ->add('submit', SubmitType::class, ['label' => 'Usuń'])
+                ->getForm();
+        
         return $this->render('auction/details.html.twig', [
-            'auction' => $auction]);
+            'auction' => $auction, 'deleteForm' => $deleteForm->createView()]);
     }
     
     /*
@@ -109,5 +119,21 @@ class AuctionController extends AbstractController
          */
         return $this->render('auction/edit.html.twig', ['form' => $form->createView()]);
         
+    }
+    
+    /*
+     * Usuwanie aukcji
+     */
+    public function deleteAction(Auction $auction) {
+        
+        /*
+         * Przetworzenie danych
+         * i przekierowanie do widoku wszystkich aukcji
+         */
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($auction);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('auction_index');
     }
 }

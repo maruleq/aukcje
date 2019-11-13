@@ -13,3 +13,8 @@ auction_add:
 auction_edit:
     path: /auction/edit/{id}
     controller: App\Controller\AuctionController::editAction
+
+auction_delete:
+    path: /auction/delete/{id}
+    methods:  [DELETE]
+    controller: App\Controller\AuctionController::deleteAction
