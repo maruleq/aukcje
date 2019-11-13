@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -83,9 +84,25 @@ class Auction
      * @ORM\Column(name="status", type="string", length=10)
      */
     private $status;
+    
+    /**
+     * @var Offer[]
+     * 
+     * @ORM\OneToMany(targetEntity="offer", mappedBy="auction")
+     */
+    private $offers;
+    
+    /**
+     * Auction constructor
+     */
+    public function _construct() {
+        $this->offers = new ArrayCollection();
+    }
 
-    
-    
+
+
+
+
     /* Getters and Setters */
     
     
@@ -289,5 +306,25 @@ class Auction
         $this->status = $status;
 
         return $this;
+    }
+    
+    /**
+     * @param Offer $offer
+     * 
+     * @return $this
+     */
+    public function addOffer(Offer $offer) {
+        
+        $this->offers[] = $offer;
+        
+        return $this;
+    }
+    
+    /**
+     * @return Offer[]|ArrayCollection
+     */
+    public function getOffers() {
+        
+        return $this->offers;
     }
 }
