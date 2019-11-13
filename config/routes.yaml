@@ -28,3 +28,8 @@ offer_buy:
     path: /auction/buy/{id}
     methods:  [POST]
     controller: App\Controller\OfferController::buyAction
+    
+offer_bid:
+    path: /auction/bid/{id}
+    methods:  [POST]
+    controller: App\Controller\OfferController::bidAction    

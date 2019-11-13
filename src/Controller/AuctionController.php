@@ -10,6 +10,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\BidType;
 use App\Form\AuctionType;
 use App\Entity\Auction;
 
@@ -65,12 +66,18 @@ class AuctionController extends AbstractController
                 ->setAction($this->generateUrl('offer_buy', ['id' => $auction->getId()]))
                 ->add('submit', SubmitType::class, ['label' => 'Kup'])
                 ->getForm();
+        /*
+         * Formularz zabezpieczający przycisk "Licytuj"
+         */
+        $bidForm = $this->createForm(BidType::class, null, [
+            'action' => $this->generateUrl('offer_bid', ['id' => $auction->getId()])]);
         
         return $this->render('auction/details.html.twig', [
             'auction' => $auction,
             'deleteForm' => $deleteForm->createView(),
             'finishForm' => $finishForm->createView(),
-            'buyForm' => $buyForm->createView()
+            'buyForm' => $buyForm->createView(),
+            'bidForm' => $bidForm->createView()
         ]);
     }
     

@@ -15,6 +15,7 @@ class Offer
 {
     const TYPE_BUY = "buy";
     const TYPE_AUCTION = "auction";
+    const TYPE_BID = "bid";
     
     /**
      * @ORM\Id()
@@ -47,7 +48,7 @@ class Offer
     
     /**
      * @ORM\ManyToOne(targetEntity="Auction", inversedBy="offers")
-     * @ORM\JoinColumn(name="auction_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="auction_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $auction;
 
