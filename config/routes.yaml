@@ -23,3 +23,8 @@ auction_finish:
     path: /auction/finish/{id}
     methods:  [POST]
     controller: App\Controller\AuctionController::finishAction
+    
+offer_buy:
+    path: /auction/buy/{id}
+    methods:  [POST]
+    controller: App\Controller\OfferController::buyAction
