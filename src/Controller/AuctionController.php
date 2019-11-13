@@ -48,8 +48,19 @@ class AuctionController extends AbstractController
                 ->add('submit', SubmitType::class, ['label' => 'Usuń'])
                 ->getForm();
         
+        /*
+         * Formularz zabezpieczający przycisk "Zakończ"
+         */
+        $finishForm = $this->createFormBuilder()
+                ->setAction($this->generateUrl('auction_finish', ['id' => $auction->getId()]))
+                ->add('submit', SubmitType::class, ['label' => 'Zakończ'])
+                ->getForm();
+        
         return $this->render('auction/details.html.twig', [
-            'auction' => $auction, 'deleteForm' => $deleteForm->createView()]);
+            'auction' => $auction,
+            'deleteForm' => $deleteForm->createView(),
+            'finishForm' => $finishForm->createView()
+        ]);
     }
     
     /*
@@ -135,5 +146,21 @@ class AuctionController extends AbstractController
         $entityManager->flush();
         
         return $this->redirectToRoute('auction_index');
+    }
+    
+     /*
+     * Zakończenie aukcji
+     */
+    public function finishAction(Auction $auction) {
+        
+        $auction
+                ->setExpiresAt(new \DateTime())
+                ->setStatus(Auction::STATUS_FINISHED);
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($auction);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
     }
 }
