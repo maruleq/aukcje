@@ -53,16 +53,39 @@ class OfferController extends Controller {
         
         $bidForm->handleRequest($request);
         
-        $offer
+        if ($bidForm->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $lastOffer = $entityManager
+                    ->getRepository(Offer::class)
+                    ->findOneBy(['auction' => $auction], ['createdAt' => 'DESC']);
+            
+            if (isset($lastOffer)) {
+                if ($offer->getPrice() <= $lastOffer->getPrice()) {
+                    $this->addFlash("error", "Twoja oferta nie może być niższa niż {$lastOffer->getPrice()} PLN");
+                    
+                    return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
+                }
+            } else {
+                    if ($offer->getPrice() < $auction->getStartingPrice()) {
+                        $this->addFlash("error", "Twoja oferta nie może być niższa od ceny wywoławczej");
+                        
+                        return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
+                    }
+                
+            }
+            
+            $offer
             ->setType(Offer::TYPE_BID)
             ->setAuction($auction);
         
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($offer);
-        $entityManager->flush();
+            $entityManager->persist($offer);
+            $entityManager->flush();
         
-        $this->addFlash("success", "Założyłeś ofertę na przedmiot {$auction->getTitle()} na kwotę {$offer->getPrice()} PLN");
-        
+            $this->addFlash("success", "Założyłeś ofertę na przedmiot {$auction->getTitle()} na kwotę {$offer->getPrice()} PLN");
+        } else {
+            $this->addFlash("error", "Nie udało się zalicytować aukcji {$auction->getTitle()}");
+        }
+       
         return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
     }
 }

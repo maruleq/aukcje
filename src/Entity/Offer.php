@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Offer
@@ -20,31 +21,38 @@ class Offer
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
+     * @Assert\NotBlank(
+     *      message="Cena nie może być pusta"
+     * )
+     * @Assert\GreaterThan(
+     *      value="0",
+     *      message="Cena musi być większa od 0"
+     * )
      */
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(name="type", type="string", length=10)
      */
     private $type;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="created_at", type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="update_at", type="datetime")
      * @Gedmo\Timestampable(on="update")
      */
-    private $update_at;
+    private $updateAt;
     
     /**
      * @ORM\ManyToOne(targetEntity="Auction", inversedBy="offers")
@@ -89,24 +97,24 @@ class Offer
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdateAt(): ?\DateTimeInterface
     {
-        return $this->update_at;
+        return $this->updateAt;
     }
 
-    public function setUpdateAt(\DateTimeInterface $update_at): self
+    public function setUpdateAt(\DateTimeInterface $updateAt): self
     {
-        $this->update_at = $update_at;
+        $this->update_at = $updateAt;
 
         return $this;
     }

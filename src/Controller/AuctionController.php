@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\BidType;
 use App\Form\AuctionType;
 use App\Entity\Auction;
+use Symfony\Component\Form\FormError;
 
 /**
  * Szczegóły AuctionController
@@ -99,14 +100,23 @@ class AuctionController extends AbstractController
          */
         if ($request->isMethod('post')){
             $form->handleRequest($request);
-            $auction->setStatus(Auction::STATUS_ACTIVE);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($auction);
-            $entityManager->flush();
             
-            $this->addFlash("success", "Aukcja {$auction->getTitle()} została dodana");
+            if ($auction->getStartingPrice() >= $auction->getPrice()) {
+                $form->get("startingPrice")->addError(new FormError("Cena wywoławcza nie może być wyższa od ceny kup teraz"));
+            }
             
-            return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
+            if ($form->isValid()) {
+                $auction->setStatus(Auction::STATUS_ACTIVE);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($auction);
+                $entityManager->flush();
+            
+                $this->addFlash("success", "Aukcja {$auction->getTitle()} została dodana");
+            
+                return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
+            }
+            
+            $this->addFlash("error", "Nie udało się dodać aukcji!");
         }
         
         /*
