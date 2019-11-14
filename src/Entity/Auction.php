@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *  Auction
@@ -31,6 +32,15 @@ class Auction
      * @var string
      * 
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(
+     *      message="Pole nie może być puste"
+     * )
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 255,
+     *      minMessage = "Minimalna ilosć znaków to 3",
+     *      maxMessage = "Maksymalna ilosć znaków to 255"
+     * )
      */
     private $title;
 
@@ -38,6 +48,13 @@ class Auction
      * @var string
      * 
      * @ORM\Column(name="description", type="text")
+     * @Assert\NotBlank(
+     *      message="Pole nie może być puste"
+     * )
+     * @Assert\Length(
+     *      min = 10,
+     *      minMessage = "Minimalna ilosć znaków to 10",
+     * )
      */
     private $description;
 
@@ -45,6 +62,13 @@ class Auction
      * @var float
      * 
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
+     * @Assert\NotBlank(
+     *      message="Pole nie może być puste"
+     * )
+     * @Assert\GreaterThan(
+     *      value="0",
+     *      message="Cena musi być większa od 0"
+     * )
      */
     private $price;
     
@@ -52,6 +76,13 @@ class Auction
      * @var float
      *
      * @ORM\Column(name="starting_price", type="decimal", precision=10, scale=2)
+     * @Assert\NotBlank(
+     *      message="Pole nie może być puste"
+     * )
+     * @Assert\GreaterThan(
+     *      value= "0",
+     *      message="Cena wywoławcza musi być większa od 0"
+     * )
      */
     private $startingPrice;
     
@@ -75,6 +106,13 @@ class Auction
      * @var \DateTime
      *
      * @ORM\Column(name="expires_at", type="datetime")
+     * @Assert\NotBlank(
+     *      message="Musisz podać datę zakończenia aukcji"
+     * )
+     * @Assert\GreaterThan(
+      *     value="+1 day",
+     *      message="Aukcja nie może kończyć się za mniej niż 24 godziny"
+     * )
      */
     private $expiresAt;
     
