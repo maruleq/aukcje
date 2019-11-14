@@ -20,6 +20,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OfferController extends Controller {
     
+    /*
+     * Zakup przedmiotu aukcji
+     */
     public function buyAction(Auction $auction) {
         
         $offer = new Offer();
@@ -35,9 +38,14 @@ class OfferController extends Controller {
         $entityManager->persist($offer);
         $entityManager->flush();
         
+        $this->addFlash("success", "Kupiłeś przedmiot {$auction->getTitle()} za kwotę {$offer->getPrice()} PLN");
+        
         return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
     }
     
+    /*
+     * Licytacja aukcji
+     */
     public function bidAction(Request $request, Auction $auction) {
         
         $offer = new Offer();
@@ -52,6 +60,8 @@ class OfferController extends Controller {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($offer);
         $entityManager->flush();
+        
+        $this->addFlash("success", "Założyłeś ofertę na przedmiot {$auction->getTitle()} na kwotę {$offer->getPrice()} PLN");
         
         return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
     }
