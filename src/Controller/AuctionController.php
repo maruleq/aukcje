@@ -98,18 +98,19 @@ class AuctionController extends AbstractController
          * i przekierowanie do widoku aukcji
          */
         if ($request->isMethod('post')){
-            
             $form->handleRequest($request);
             $auction->setStatus(Auction::STATUS_ACTIVE);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($auction);
             $entityManager->flush();
             
+            $this->addFlash("success", "Aukcja {$auction->getTitle()} została dodana");
+            
             return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
         }
         
         /*
-         * Wyswietlenie formularza
+         * Wyświetlenie formularza
          */
         return $this->render('auction/add.html.twig', [
             'form' => $form->createView()
@@ -136,11 +137,13 @@ class AuctionController extends AbstractController
             $entityManager->persist($auction);
             $entityManager->flush();
             
+            $this->addFlash("success", "Aukcja {$auction->getTitle()} została zaktualizowana");
+            
             return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
         }
         
         /*
-         * Wyswietlenie formularza
+         * Wyświetlenie formularza
          */
         return $this->render('auction/edit.html.twig', ['form' => $form->createView()]);
         
@@ -151,28 +154,32 @@ class AuctionController extends AbstractController
      */
     public function deleteAction(Auction $auction) {
         
-        /*
-         * Przetworzenie danych
-         * i przekierowanie do widoku wszystkich aukcji
-         */
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($auction);
         $entityManager->flush();
         
+        $this->addFlash("success", "Aukcja {$auction->getTitle()} została usunięta");
+        
         return $this->redirectToRoute('auction_index');
     }
     
-     /*
+    /*
      * Zakończenie aukcji
      */
     public function finishAction(Auction $auction) {
         
+        /*
+         * Ustawienie aktualnej daty jako zakończenia aukcji
+         * Ustawienie statusu aukcji
+         */
         $auction
                ->setExpiresAt(new \DateTime())
                ->setStatus(Auction::STATUS_FINISHED);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($auction);
         $entityManager->flush();
+        
+        $this->addFlash("success", "Aukcja {$auction->getTitle()} została zakończona");
         
         return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
     }
