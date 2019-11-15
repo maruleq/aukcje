@@ -131,6 +131,14 @@ class Auction
     private $offers;
     
     /**
+     *
+     * @var User
+     * 
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="auctions")
+     */
+    private $owner;
+    
+    /**
      * Auction constructor
      */
     public function _construct() {
@@ -142,6 +150,8 @@ class Auction
 
 
     /* Getters and Setters */
+    
+    
     
     
     /**
@@ -364,5 +374,27 @@ class Auction
     public function getOffers() {
         
         return $this->offers;
+    }
+    
+     /**
+     * 
+     * @param User $owner
+     * 
+     * @return $this
+     */
+    public function setOwner(User $owner) {
+        
+        $this->owner = $owner;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return User
+     */
+    public function getOwner() {
+        
+        return $this->owner;
     }
 }

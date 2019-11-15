@@ -14,6 +14,7 @@ use App\Form\BidType;
 use App\Form\AuctionType;
 use App\Entity\Auction;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Szczegóły AuctionController
@@ -87,6 +88,8 @@ class AuctionController extends AbstractController
      */
     public function addAction(Request $request) {
         
+        $this->denyAccessUnlessGranted("ROLE_USER");
+        
         $auction = new Auction();
         
         /*
@@ -106,7 +109,9 @@ class AuctionController extends AbstractController
             }
             
             if ($form->isValid()) {
-                $auction->setStatus(Auction::STATUS_ACTIVE);
+                $auction
+                        ->setStatus(Auction::STATUS_ACTIVE)
+                        ->setOwner($this->getUser());
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($auction);
                 $entityManager->flush();
@@ -131,6 +136,12 @@ class AuctionController extends AbstractController
      * Formularz edycji aukcji
      */
     public function editAction(Request $request, Auction $auction) {
+        
+        $this->denyAccessUnlessGranted("ROLE_USER");
+        
+        if ($this->getUser() !== $auction->getOwner()) {
+            throw new AccessDeniedException();
+        }
         
         /*
          * Stworzenie formularza
@@ -164,6 +175,12 @@ class AuctionController extends AbstractController
      */
     public function deleteAction(Auction $auction) {
         
+        $this->denyAccessUnlessGranted("ROLE_USER");
+        
+        if ($this->getUser() !== $auction->getOwner()) {
+            throw new AccessDeniedException();
+        }
+        
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($auction);
         $entityManager->flush();
@@ -177,6 +194,12 @@ class AuctionController extends AbstractController
      * Zakończenie aukcji
      */
     public function finishAction(Auction $auction) {
+        
+        $this->denyAccessUnlessGranted("ROLE_USER");
+        
+        if ($this->getUser() !== $auction->getOwner()) {
+            throw new AccessDeniedException();
+        }
         
         /*
          * Ustawienie aktualnej daty jako zakończenia aukcji
