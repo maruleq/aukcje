@@ -7,21 +7,17 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\BidType;
-use App\Form\AuctionType;
 use App\Entity\Auction;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Szczegóły AuctionController
  *
  * @author Marek Grabowski
  */
-class AuctionController extends AbstractController
+class AuctionController extends Controller
 {
     
     /*
@@ -66,138 +62,5 @@ class AuctionController extends AbstractController
             'bidForm' => $bidForm->createView()
         ]);
     }
-    
-    /*
-     * Formularz dodawania aukcji
-     */
-    public function addAction(Request $request) {
-        
-        $this->denyAccessUnlessGranted("ROLE_USER");
-        
-        $auction = new Auction();
-        
-        /*
-         * Stworzenie formularza
-         */
-        $form = $this->createForm(AuctionType::class, $auction);
-        
-        /*
-         * Przetworzenie danych z formularza
-         * i przekierowanie do widoku aukcji
-         */
-        if ($request->isMethod('post')){
-            $form->handleRequest($request);
-            
-            if ($auction->getStartingPrice() >= $auction->getPrice()) {
-                $form->get("startingPrice")->addError(new FormError("Cena wywoławcza nie może być wyższa od ceny kup teraz"));
-            }
-            
-            if ($form->isValid()) {
-                $auction
-                        ->setStatus(Auction::STATUS_ACTIVE)
-                        ->setOwner($this->getUser());
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($auction);
-                $entityManager->flush();
-            
-                $this->addFlash("success", "Aukcja {$auction->getTitle()} została dodana");
-            
-                return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
-            }
-            
-            $this->addFlash("error", "Nie udało się dodać aukcji!");
-        }
-        
-        /*
-         * Wyświetlenie formularza
-         */
-        return $this->render('Auction/add.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-    
-    /*
-     * Formularz edycji aukcji
-     */
-    public function editAction(Request $request, Auction $auction) {
-        
-        $this->denyAccessUnlessGranted("ROLE_USER");
-        
-        if ($this->getUser() !== $auction->getOwner()) {
-            throw new AccessDeniedException();
-        }
-        
-        /*
-         * Stworzenie formularza
-         */
-        $form = $this->createForm(AuctionType::class, $auction);
-        
-        /*
-         * Przetworzenie danych z formularza
-         * i przekierowanie do widoku aukcji
-         */
-        if ($request->isMethod('post')) {
-            $form->handleRequest($request);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($auction);
-            $entityManager->flush();
-            
-            $this->addFlash("success", "Aukcja {$auction->getTitle()} została zaktualizowana");
-            
-            return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
-        }
-        
-        /*
-         * Wyświetlenie formularza
-         */
-        return $this->render('Auction/edit.html.twig', ['form' => $form->createView()]);
-        
-    }
-    
-    /*
-     * Usuwanie aukcji
-     */
-    public function deleteAction(Auction $auction) {
-        
-        $this->denyAccessUnlessGranted("ROLE_USER");
-        
-        if ($this->getUser() !== $auction->getOwner()) {
-            throw new AccessDeniedException();
-        }
-        
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($auction);
-        $entityManager->flush();
-        
-        $this->addFlash("success", "Aukcja {$auction->getTitle()} została usunięta");
-        
-        return $this->redirectToRoute('auction_index');
-    }
-    
-    /*
-     * Zakończenie aukcji
-     */
-    public function finishAction(Auction $auction) {
-        
-        $this->denyAccessUnlessGranted("ROLE_USER");
-        
-        if ($this->getUser() !== $auction->getOwner()) {
-            throw new AccessDeniedException();
-        }
-        
-        /*
-         * Ustawienie aktualnej daty jako zakończenia aukcji
-         * Ustawienie statusu aukcji
-         */
-        $auction
-               ->setExpiresAt(new \DateTime())
-               ->setStatus(Auction::STATUS_FINISHED);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($auction);
-        $entityManager->flush();
-        
-        $this->addFlash("success", "Aukcja {$auction->getTitle()} została zakończona");
-        
-        return $this->redirectToRoute('auction_details', ['id' => $auction->getId()]);
-    }
+
 }

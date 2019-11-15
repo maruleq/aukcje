@@ -5,25 +5,7 @@ auction_index:
 auction_details:
     path: auction/details/{id}
     controller: App\Controller\AuctionController::detailsAction
-    
-auction_add:
-    path: /auction/add
-    controller: App\Controller\AuctionController::addAction
 
-auction_edit:
-    path: /auction/edit/{id}
-    controller: App\Controller\AuctionController::editAction
-
-auction_delete:
-    path: /auction/delete/{id}
-    methods:  [DELETE]
-    controller: App\Controller\AuctionController::deleteAction
-
-auction_finish:
-    path: /auction/finish/{id}
-    methods:  [POST]
-    controller: App\Controller\AuctionController::finishAction
-    
 offer_buy:
     path: /auction/buy/{id}
     methods:  [POST]
@@ -41,3 +23,21 @@ my_auction_index:
 my_auction_details:
     path: my/auction/details/{id}
     controller: App\Controller\MyAuctionController::detailsAction
+
+my_auction_add:
+    path: /my/auction/add
+    controller: App\Controller\MyAuctionController::addAction
+
+my_auction_edit:
+    path: /my/auction/edit/{id}
+    controller: App\Controller\MyAuctionController::editAction
+
+my_auction_delete:
+    path: /my/auction/delete/{id}
+    methods:  [DELETE]
+    controller: App\Controller\MyAuctionController::deleteAction
+
+my_auction_finish:
+    path: /my/auction/finish/{id}
+    methods:  [POST]
+    controller: App\Controller\MyAuctionController::finishAction
