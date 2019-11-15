@@ -25,23 +25,29 @@
     </div>    
     
     {# Grupa przycisków do zarządzania aukcją #}
-    <a href="{{ url('auction_index') }}"><button type="button" class="btn btn-primary float-left">Powrót</button></a>
-    
     {% if is_granted("ROLE_USER") %}
-    {# Przycisk "Kup" zabezpieczony formularzem #}
-        {{ form_start(buyForm, {'attr': {'class': 'float-left'}}) }}
-            {{ form_widget(buyForm.submit, {'attr': {'class': 'btn-success'}}) }}
-            {{ form_rest(buyForm) }}
-        {{ form_end(buyForm) }}
-    
-    
-    <div class="clearfix"></div>
-    
-    {# Przycisk "Licytuj" zabezpieczony formularzem #}
-        {{ form(bidForm, {'attr': {'novalidate': 'novalidate'}}) }}
-    {% endif %}
-    
-    {% if not is_granted("ROLE_USER") %}
-        Żeby kupować musisz się zalogować
+        <div class="card">
+            <div class="card-body">
+                {# Przycisk "Kup" i "Licytuj" zabezpieczone formularzem #}
+                <div class="input-group">
+                    {{ form_start(bidForm, {"attr": {"novalidate": "novalidate"}}) }}
+                    <div class="input-group">
+                        {{ form_widget(bidForm.price) }}
+                        <span class="input-group-prepend">
+                            {{ form_widget(bidForm.submit) }}
+                        </span>
+                    </div>
+                    {{ form_end(bidForm) }}
+
+                    {{ form_start(buyForm) }}
+                    {{ form_widget(buyForm.submit, {"attr": {"class": "btn-success", "style": "margin-left: 6px"}}) }}
+                    {{ form_rest(buyForm) }}
+                    {{ form_end(buyForm) }}
+                    {{ form_rest(bidForm) }}
+                    <a class="btn btn-info" style="margin-left: 5px" href="{{ path('auction_index') }}">Wróć</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
