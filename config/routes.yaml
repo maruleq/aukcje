@@ -32,4 +32,12 @@ offer_buy:
 offer_bid:
     path: /auction/bid/{id}
     methods:  [POST]
-    controller: App\Controller\OfferController::bidAction    
+    controller: App\Controller\OfferController::bidAction
+
+my_auction_index:
+    path: /my
+    controller: App\Controller\MyAuctionController::indexAction
+
+my_auction_details:
+    path: my/auction/details/{id}
+    controller: App\Controller\MyAuctionController::detailsAction
