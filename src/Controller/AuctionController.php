@@ -32,7 +32,7 @@ class AuctionController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $auctions = $entityManager->getRepository(Auction::class)->findBy(['status' => Auction::STATUS_ACTIVE]);
         
-        return $this->render('auction/index.html.twig', [
+        return $this->render('Auction/index.html.twig', [
             'auctions' => $auctions,
         ]);
     }
@@ -44,23 +44,9 @@ class AuctionController extends AbstractController
         
         if ($auction->getStatus() === Auction::STATUS_FINISHED) {
 
-            return $this->render('auction/finished.html.twig', ['auction' => $auction]);
+            return $this->render('Auction/finished.html.twig', ['auction' => $auction]);
         }
-        /*
-         * Formularz zabezpieczający przycisk "Usuń"
-         */
-        $deleteForm = $this->createFormBuilder()
-                ->setAction($this->generateUrl('auction_delete', ['id' => $auction->getId()]))
-                ->setMethod(Request::METHOD_DELETE)
-                ->add('submit', SubmitType::class, ['label' => 'Usuń'])
-                ->getForm();
-        /*
-         * Formularz zabezpieczający przycisk "Zakończ"
-         */
-        $finishForm = $this->createFormBuilder()
-                ->setAction($this->generateUrl('auction_finish', ['id' => $auction->getId()]))
-                ->add('submit', SubmitType::class, ['label' => 'Zakończ'])
-                ->getForm();
+       
         /*
          * Formularz zabezpieczający przycisk "Kup"
          */
@@ -74,10 +60,8 @@ class AuctionController extends AbstractController
         $bidForm = $this->createForm(BidType::class, null, [
             'action' => $this->generateUrl('offer_bid', ['id' => $auction->getId()])]);
         
-        return $this->render('auction/details.html.twig', [
+        return $this->render('Auction/details.html.twig', [
             'auction' => $auction,
-            'deleteForm' => $deleteForm->createView(),
-            'finishForm' => $finishForm->createView(),
             'buyForm' => $buyForm->createView(),
             'bidForm' => $bidForm->createView()
         ]);
@@ -127,7 +111,7 @@ class AuctionController extends AbstractController
         /*
          * Wyświetlenie formularza
          */
-        return $this->render('auction/add.html.twig', [
+        return $this->render('Auction/add.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -166,7 +150,7 @@ class AuctionController extends AbstractController
         /*
          * Wyświetlenie formularza
          */
-        return $this->render('auction/edit.html.twig', ['form' => $form->createView()]);
+        return $this->render('Auction/edit.html.twig', ['form' => $form->createView()]);
         
     }
     
