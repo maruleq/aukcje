@@ -27,9 +27,11 @@ class MyAuctionController extends Controller {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
         $entityManager = $this->getDoctrine()->getManager();
-        $auctions = $entityManager
-                ->getRepository(Auction::class)
-                ->findBy(['owner' => $this->getUser()]);
+        
+        /*
+         * Sortowanie wszystkich aukcji od kończących się
+         */
+        $auctions = $entityManager->getRepository(Auction::class)->findMyOrdered($this->getUser());
 
         return $this->render("MyAuction/index.html.twig", ["auctions" => $auctions]);
     
