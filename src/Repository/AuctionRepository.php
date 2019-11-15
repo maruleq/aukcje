@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Auction;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -17,6 +18,40 @@ class AuctionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Auction::class);
+    }
+    
+    /**
+     * @return Auction[]
+     */
+    public function findActiveOrdered()
+    {
+        return $this->createQueryBuilder("a")
+            ->where("a.status = :active")
+            ->setParameter("active", Auction::STATUS_ACTIVE)
+            ->andWhere("a.expiresAt > :now")
+            ->setParameter("now", new \DateTime())
+            ->orderBy("a.expiresAt", "ASC")
+            ->getQuery()
+            ->getResult();
+    }
+    
+     /**
+     * @param User $owner
+     *
+     * @return Auction[]
+     */
+    public function findMyOrdered(User $owner)
+    {
+        return $this
+            ->getEntityManager()
+            ->createQuery(
+                "SELECT a
+                FROM App:Auction a
+                WHERE a.owner = :owner
+                ORDER BY a.expiresAt ASC"
+            )
+            ->setParameter("owner", $owner)
+            ->getResult();
     }
 
     // /**

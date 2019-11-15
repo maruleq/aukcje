@@ -27,13 +27,17 @@ class AuctionController extends Controller
     public function indexAction(LoggerInterface $logger) {
         
         $entityManager = $this->getDoctrine()->getManager();
-        $auctions = $entityManager->getRepository(Auction::class)->findBy(['status' => Auction::STATUS_ACTIVE]);
+        
+        /*
+         * Sortowanie wszystkich aukcji od kończących się
+         */
+        $auctions = $entityManager->getRepository(Auction::class)->findActiveOrdered();
+        
         
         /*
          * Podgląd loggera w dev.log:
          * cat var/log/dev.log | grep app.INFO
          */
-       
         $logger->info("Użytkownik wyświetlił listę aukcji");
         
         return $this->render('Auction/index.html.twig', [
