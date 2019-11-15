@@ -12,6 +12,7 @@ use App\Entity\Auction;
 use App\Entity\Offer;
 use App\Form\BidType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Szczegóły OfferController
@@ -24,6 +25,8 @@ class OfferController extends Controller {
      * Zakup przedmiotu aukcji
      */
     public function buyAction(Auction $auction) {
+        
+        $this->denyAccessUnlessGranted("ROLE_USER");
         
         $offer = new Offer();
         $offer
@@ -47,6 +50,8 @@ class OfferController extends Controller {
      * Licytacja aukcji
      */
     public function bidAction(Request $request, Auction $auction) {
+        
+        $this->denyAccessUnlessGranted("ROLE_USER");
         
         $offer = new Offer();
         $bidForm = $this->createForm(BidType::class, $offer);
