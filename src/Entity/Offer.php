@@ -59,6 +59,13 @@ class Offer
      * @ORM\JoinColumn(name="auction_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $auction;
+    
+    /**
+     *@var User
+     * 
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="offers")
+     */
+    private $owner;
 
 
 
@@ -137,5 +144,26 @@ class Offer
         $this->auction = $auction;
         
         return $this;
+    }
+    
+    /**
+     * 
+     * @param User $owner
+     * @return $this
+     */
+    public function setOwner(User $owner) {
+        
+        $this->owner = $owner;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return User
+     */
+    public function getOwner() {
+        
+        return $this->owner;
     }
 }
