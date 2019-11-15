@@ -27,15 +27,21 @@
     {# Grupa przycisków do zarządzania aukcją #}
     <a href="{{ url('auction_index') }}"><button type="button" class="btn btn-primary float-left">Powrót</button></a>
     
+    {% if is_granted("ROLE_USER") %}
     {# Przycisk "Kup" zabezpieczony formularzem #}
-    {{ form_start(buyForm, {'attr': {'class': 'float-left'}}) }}
-        {{ form_widget(buyForm.submit, {'attr': {'class': 'btn-success'}}) }}
-        {{ form_rest(buyForm) }}
-    {{ form_end(buyForm) }}
+        {{ form_start(buyForm, {'attr': {'class': 'float-left'}}) }}
+            {{ form_widget(buyForm.submit, {'attr': {'class': 'btn-success'}}) }}
+            {{ form_rest(buyForm) }}
+        {{ form_end(buyForm) }}
+    
     
     <div class="clearfix"></div>
     
     {# Przycisk "Licytuj" zabezpieczony formularzem #}
-    {{ form(bidForm, {'attr': {'novalidate': 'novalidate'}}) }}
-
+        {{ form(bidForm, {'attr': {'novalidate': 'novalidate'}}) }}
+    {% endif %}
+    
+    {% if not is_granted("ROLE_USER") %}
+        Żeby kupować musisz się zalogować
+    {% endif %}
 {% endblock %}
