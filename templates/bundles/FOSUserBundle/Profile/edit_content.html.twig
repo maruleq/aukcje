@@ -1,0 +1,25 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+
+<div class="card p-3" style="margin-bottom: 15px">
+    <div class="card-body">
+
+        <div class="form-group">
+            <label class="sr-only-focusable">Adres e-mail</label>
+            {{ form_widget(form.email) }}
+        </div>
+
+{#        <div class="form-group">
+            <label class="sr-only-focusable">Podaj hasło</label>
+            {{ form_widget(form.current_password) }}
+        </div>#}
+
+        <div>
+            <input class="btn btn-primary" type="submit" value="Aktualizuj" />
+        </div>
+
+    </div>
+</div>
+
+{{ form_end(form) }}

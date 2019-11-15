@@ -1,0 +1,20 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_show %}
+
+    <div class="card p-3" style="margin-bottom: 15px">
+        <div class="card-body">
+            <h4>Użytkownik: <b>{{ user.username }}</b></h4>
+            <h4>Adres e-mail: {{ user.email }}</h4>
+
+            <div style="margin-top: 25px">
+                <a class="btn btn-primary" href="{{ url('fos_user_profile_edit') }}">Edytuj profil</a>
+                <a class="btn btn-success" href="{{ url('fos_user_change_password') }}">Zmień hasło</a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
