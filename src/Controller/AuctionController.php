@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\BidType;
 use App\Entity\Auction;
+use Psr\Log\LoggerInterface;
 
 /**
  * Szczegóły AuctionController
@@ -23,10 +24,17 @@ class AuctionController extends Controller
     /*
      * Wyświetlanie wszystkich aukcji
      */
-    public function indexAction() {
+    public function indexAction(LoggerInterface $logger) {
         
         $entityManager = $this->getDoctrine()->getManager();
         $auctions = $entityManager->getRepository(Auction::class)->findBy(['status' => Auction::STATUS_ACTIVE]);
+        
+        /*
+         * Podgląd loggera w dev.log:
+         * cat var/log/dev.log | grep app.INFO
+         */
+       
+        $logger->info("Użytkownik wyświetlił listę aukcji");
         
         return $this->render('Auction/index.html.twig', [
             'auctions' => $auctions,
