@@ -18,13 +18,13 @@
         </ul>
     </div>
     {# Lista złożonych ofert #}
-    <div class="card p-3">
+    <<div class="card" style="margin-bottom: 15px">
         <ul class="list-group list-group-flush">
             {% for offer in auction.offers %}
-                <li class="list-group-item">Oferta {{ offer.price }} PLN, złożona dnia {{ offer.createdAt | date('Y-m-d H:i:s') }}</li>
-            {% endfor %}
+                <li class="list-group-item">Oferta {{ offer.price | number_format }} PLN, złożona dnia {{ offer.createdAt | date("Y-m-d H:i:s") }}</li>
+                {% endfor %}
         </ul>
-    </div>    
+    </div>   
     
     {# Grupa przycisków do zarządzania aukcją #}
     {% if is_granted("ROLE_USER") %}
