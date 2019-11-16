@@ -6,8 +6,8 @@
     {# Wyświetlanie wszystkich aktywnych aukcji #}
     {% for auction in auctions %}
         <div class="card p-3">
-            <div class=" p-4 {{ auctionStyle(auction.expiresAt) }}">
-                <h3>{{ auction.title }}</h3>
+            <div class="{{ auctionStyle(auction.expiresAt) }} p-4">
+                <h4>{{ auction.title }}</h4>
             </div>
             <div class="card-body">
                 <p class="card-text">{{ auction.description}}</p>               
