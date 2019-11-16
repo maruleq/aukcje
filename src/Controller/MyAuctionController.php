@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use App\EventDispatcher\AuctionEvent;
+use App\EventDispatcher\Events;
 
 /**
  * Szczegóły MyAuctionController
@@ -101,6 +103,8 @@ class MyAuctionController extends Controller {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($auction);
                 $entityManager->flush();
+                
+                $this->get("event_dispatcher")->dispatch(Events::AUCTION_ADD, new AuctionEvent($auction));
             
                 $this->addFlash("success", "Aukcja {$auction->getTitle()} została dodana");
             
@@ -144,6 +148,8 @@ class MyAuctionController extends Controller {
             $entityManager->persist($auction);
             $entityManager->flush();
             
+            $this->get("event_dispatcher")->dispatch(Events::AUCTION_EDIT, new AuctionEvent($auction));
+            
             $this->addFlash("success", "Aukcja {$auction->getTitle()} została zaktualizowana");
             
             return $this->redirectToRoute('my_auction_details', ['id' => $auction->getId()]);
@@ -171,6 +177,8 @@ class MyAuctionController extends Controller {
         $entityManager->remove($auction);
         $entityManager->flush();
         
+        $this->get("event_dispatcher")->dispatch(Events::AUCTION_DELETE, new AuctionEvent($auction));
+        
         $this->addFlash("success", "Aukcja {$auction->getTitle()} została usunięta");
         
         return $this->redirectToRoute('my_auction_index');
@@ -197,6 +205,8 @@ class MyAuctionController extends Controller {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($auction);
         $entityManager->flush();
+        
+        $this->get("event_dispatcher")->dispatch(Events::AUCTION_FINISH, new AuctionEvent($auction));
         
         $this->addFlash("success", "Aukcja {$auction->getTitle()} została zakończona");
         
