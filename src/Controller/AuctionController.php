@@ -52,6 +52,10 @@ class AuctionController extends Controller
      */
     public function detailsAction(Auction $auction) {
         
+        if (!$this->isGranted('ROLE_USER')) {
+            $this->addFlash("error", "Aby kupować musisz być zalogowany");
+        }
+        
         if ($auction->getStatus() === Auction::STATUS_FINISHED) {
 
             return $this->render('Auction/finished.html.twig', ['auction' => $auction]);

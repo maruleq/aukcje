@@ -58,7 +58,9 @@ class DateExtension extends \Twig_Extension {
      */
     public function auctionStyle(\DateTime $expiresAt) {
         
-        if ($expiresAt < new \DateTime("+1 day")) {
+        if ($expiresAt < new \DateTime()) {
+            return "card-header bg-success";
+        } elseif ($expiresAt <= new \DateTime("+1 day")) {
             return "card-header bg-warning";
         }
         
