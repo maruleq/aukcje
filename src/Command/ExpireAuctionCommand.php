@@ -7,6 +7,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use App\EventDispatcher\AuctionEvent;
+use App\EventDispatcher\Events;
 
 class ExpireAuctionCommand extends Command {
 
@@ -20,10 +23,16 @@ class ExpireAuctionCommand extends Command {
      * @var EntityManager
      */
     private $entityManager;
+    
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher) {
         parent::__construct();
         $this->entityManager = $entityManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
     
 
@@ -45,7 +54,9 @@ class ExpireAuctionCommand extends Command {
 
         foreach ($auctions as $auction) {
             $auction->setStatus(Auction::STATUS_FINISHED);
-            $this->entityManager->persist($auction);  
+            $this->entityManager->persist($auction); 
+            
+            $this->eventDispatcher->dispatch(Events::AUCTION_EXPIRE, new AuctionEvent($auction));
         }
 
         $this->entityManager->flush();
