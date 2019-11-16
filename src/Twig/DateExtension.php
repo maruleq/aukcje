@@ -2,12 +2,14 @@
 
 namespace App\Twig;
 
+use Twig\Extension\AbstractExtension;
+
 /**
  * Szczegóły DateExtension
  *
  * @author Marek Grabowski
  */
-class DateExtension extends \Twig_Extension {
+class DateExtension extends AbstractExtension {
     
     /**
      * 
