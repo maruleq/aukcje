@@ -53,6 +53,20 @@ class AuctionRepository extends ServiceEntityRepository
             ->setParameter("owner", $owner)
             ->getResult();
     }
+    
+    /**
+     * @return Auction[]
+     */
+    public function findActiveExpired()
+    {
+        return $this->createQueryBuilder("a")
+            ->where("a.status = :status")
+            ->setParameter("status", Auction::STATUS_ACTIVE)
+            ->andWhere("a.expiresAt < :now")
+            ->setParameter("now", new \DateTime)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Auction[] Returns an array of Auction objects
