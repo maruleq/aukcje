@@ -32,6 +32,7 @@ class OfferController extends Controller {
         $offer
             ->setAuction($auction)
             ->setType(Offer::TYPE_BUY)
+            ->setOwner($this->getUser())
             ->setPrice($auction->getPrice());
         $auction
             ->setStatus(Auction::STATUS_FINISHED)
@@ -80,8 +81,9 @@ class OfferController extends Controller {
             }
             
             $offer
-            ->setType(Offer::TYPE_BID)
-            ->setAuction($auction);
+                ->setType(Offer::TYPE_BID)
+                ->setOwner($this->getUser())
+                ->setAuction($auction);
         
             $entityManager->persist($offer);
             $entityManager->flush();

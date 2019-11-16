@@ -18,7 +18,7 @@
         </ul>
     </div>
     {# Lista złożonych ofert #}
-    <<div class="card" style="margin-bottom: 15px">
+    <div class="card" style="margin-bottom: 15px">
         <ul class="list-group list-group-flush">
             {% for offer in auction.offers %}
                 <li class="list-group-item">Oferta {{ offer.price | number_format }} PLN, złożona dnia {{ offer.createdAt | date("Y-m-d H:i:s") }}</li>
