@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\BidType;
 use App\Entity\Auction;
 use Psr\Log\LoggerInterface;
+use App\Service\DateService;
 
 /**
  * Szczegóły AuctionController
@@ -24,7 +25,7 @@ class AuctionController extends Controller
     /*
      * Wyświetlanie wszystkich aukcji
      */
-    public function indexAction(LoggerInterface $logger) {
+    public function indexAction(DateService $dateService, LoggerInterface $logger) {
         
         $entityManager = $this->getDoctrine()->getManager();
         
@@ -39,6 +40,7 @@ class AuctionController extends Controller
          * cat var/log/dev.log | grep app.INFO
          */
         $logger->info("Użytkownik wyświetlił listę aukcji");
+        $logger->info("Aktualny dzień miesiąca to " . $dateService->getDay(new \DateTime()));
         
         return $this->render('Auction/index.html.twig', [
             'auctions' => $auctions,
