@@ -14,11 +14,10 @@
             <li class="list-group-item">Cena: {{ auction.price }} PLN</li>
             <li class="list-group-item">Cena wywoławcza: {{ auction.startingPrice }} PLN</li>
             <li class="list-group-item">Aukcja zakończona dnia: {{ auction.expiresAt | date('Y-m-d H:i:s') }}</li>
+            <li class="list-group-item"><b>Brak możliwości edycji</b></li>
         </ul>
         <div class="card-body">
             <a href="{{ url('auction_index') }}"><button type="button" class="btn btn-primary float-left">Powrót</button></a>
         </div>
-    </div> 
-
+    </div>
 {% endblock %}
-
