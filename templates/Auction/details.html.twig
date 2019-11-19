@@ -14,7 +14,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Cena: {{ auction.price | number_format }} PLN</li>
             <li class="list-group-item">Cena wywoławcza: {{ auction.startingPrice | number_format }} PLN</li>
-            <li class="list-group-item">Zakończenie aukcji: {{ auction.expiresAt | expireDate }}</li>
+            <li class="list-group-item">{{ auction.expiresAt | expireDate }}</li>
         </ul>
     </div>
     {# Lista złożonych ofert #}

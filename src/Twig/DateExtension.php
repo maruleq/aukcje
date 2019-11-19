@@ -41,15 +41,15 @@ class DateExtension extends AbstractExtension {
         }
         
         if ($expiresAt < new \DateTime("+1 day")) {
-            return "za " . $expiresAt->format("H") . " godz. " . $expiresAt->format("i") . " min.";
+            return "Czas do końca aukcji: " . $expiresAt->diff(new \DateTime())->h . " godz. " . $expiresAt->diff(new \DateTime())->i . " min." . $expiresAt->diff(new \DateTime())->s . "sek.";
         }   
         
         if ($expiresAt > new \DateTime("+7 days")) {
-            return $expiresAt->format("Y-m-d H:i");
+            return "Data zakończenia aukcji: " . $expiresAt->format("Y-m-d H:i");
         }
         
         if ($expiresAt > new \DateTime("+1 day")) {
-            return " za " . $expiresAt->diff(new \DateTime())->days . " dni";
+            return "Liczba dni do końca aukcji: " . $expiresAt->diff(new \DateTime())->days;
         }
     }
     
