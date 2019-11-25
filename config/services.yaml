@@ -22,6 +22,24 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-
+    
+    app.menu_builder: 
+        class: App\Menu\Builder 
+        arguments: ["@knp_menu.factory"] 
+ 
+    app.admin_menu: 
+        class: Knp\Menu\MenuItem 
+        factory: ["@app.menu_builder", AuthenticatedMenu]
+        arguments: ["@request_stack"] 
+        tags: 
+            - { name: knp_menu.menu, alias: authenticated }
+    
+    app.main_menu: 
+        class: Knp\Menu\MenuItem 
+        factory: ["@app.menu_builder", AnonymousMenu]
+        arguments: ["@request_stack"] 
+        tags: 
+            - { name: knp_menu.menu, alias: anonymous }
+    
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
