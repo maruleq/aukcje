@@ -40,6 +40,7 @@ class Builder {
     { 
         $menu = $this->factory->createItem('root'); 
  
+        $menu->setChildrenAttribute('class', 'nav nav-pills');
         $menu->addChild('Aukcje', ['route' => 'auction_index']); 
         $menu->addChild('Zaloguj się', ['route' => 'fos_user_security_login']);
         $menu->addChild('Zarejestruj się', ['route' => 'fos_user_registration_register']);

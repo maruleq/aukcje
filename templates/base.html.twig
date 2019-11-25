@@ -13,11 +13,13 @@
     <body>
         {# Menu ładuje się warunkowo dla użytkowników anonimowych i zalogowanych #}
         <div class="container" style="margin-top: 15px">
-            {% if is_granted("ROLE_USER") %}
-                {{ knp_menu_render('authenticated') }}
-            {% else %}
-                {{ knp_menu_render('anonymous') }}
-            {% endif %}
+            <nav class="navbar navbar-light">
+                {% if is_granted("ROLE_USER") %}
+                    {{ knp_menu_render('authenticated') }}
+                {% else %}
+                    {{ knp_menu_render('anonymous', {'listAttributes': {'class': 'nav-item'}}) }}
+                {% endif %}
+            </nav>
         </div>
         
         <hr/>
