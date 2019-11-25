@@ -30,12 +30,20 @@ class AuctionType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         
         $builder
-            ->add('title', TextType::class, ['label' => 'Tytuł'])
-            ->add('description', TextareaType::class, ['label' => 'Opis'])
-            ->add('price', NumberType::class, ['label' => 'Cena'])
-            ->add('startingPrice', NumberType::class, ['label' => 'Cena wywoławcza'])
-            ->add('expiresAt', DateTimeType::class, ['label' => 'Data zakończenia aukcji', 'data' => new \DateTime('+1 day +30 minutes')])
-            ->add('submit', SubmitType::class, ['label' => 'Zapisz']);
+            ->add('title', TextType::class, [
+                'label' => 'Tytuł'])
+            ->add('description', TextareaType::class, [
+                'label' => 'Opis'])
+            ->add('price', NumberType::class, [
+                'label' => 'Cena'])
+            ->add('startingPrice', NumberType::class, [
+                'label' => 'Cena wywoławcza'])
+            ->add('expiresAt', DateTimeType::class, [
+                'label' => 'Data zakończenia aukcji',
+                'data' => new \DateTime('+1 day +30 minutes'),
+                'date_widget' => 'single_text', 'time_widget' => 'single_text'])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Zapisz']);
     }
     
     /*
