@@ -14,9 +14,9 @@
         {# Menu ładuje się warunkowo dla użytkowników anonimowych i zalogowanych #}
         <div class="container" style="margin-top: 15px">
             {% if is_granted("ROLE_USER") %}
-                {% include("menuAuthenticated.html.twig") %}
+                {{ knp_menu_render('authenticated') }}
             {% else %}
-                {% include("menuAnonymous.html.twig") %}
+                {{ knp_menu_render('anonymous') }}
             {% endif %}
         </div>
         
