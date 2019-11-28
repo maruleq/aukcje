@@ -16,6 +16,7 @@
             <nav class="navbar navbar-light">
                 {% if is_granted("ROLE_USER") %}
                     {{ knp_menu_render('authenticated', {'template': 'menu/menu.html.twig'}) }}
+                    <p>Zalogowany jako: <b>{{ app.user.username }}</b></p>
                 {% else %}
                     {{ knp_menu_render('anonymous', {'template': 'menu/menu.html.twig'}) }}
                 {% endif %}
