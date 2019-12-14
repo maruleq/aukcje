@@ -33,6 +33,7 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
+        "deployer/deployer": "^6.7",
         "easycorp/easy-deploy-bundle": "^1.0",
         "symfony/debug-pack": "*",
         "symfony/phpunit-bridge": "^4.3",
@@ -70,7 +71,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "touch .env"
+            "APP_ENV=prod APP_DEBUG=0"
         ]
 
     },
