@@ -1,7 +1,7 @@
 <?php
 namespace Deployer;
 
-require 'recipe/symfony.php';
+require 'recipe/symfony4.php';
 
 // Project name
 set('application', 'aukcje');
@@ -23,16 +23,24 @@ set('allow_anonymous_stats', false);
 // Hosts
 
 host('grabowskispace.pl')
-        ->stage('production')
-        ->user('marek')
-        ->set('branch', 'master')
-        ->set('deploy_path', '~/projects/{{application}}');    
+    ->stage('production')
+    ->user('marek')
+    ->set('branch', 'master')
+    ->roles('app')
+    ->set('deploy_path', '~/projects/{{application}}');    
     
 // Tasks
 
 task('build', function () {
     run('cd {{release_path}} && build');
 });
+
+/*
+task('update:permissions', function () {
+    run('chmod -R a+w {{release_path}}/bootstrap/cache');
+    run('chown -R {{user}}:{{user}} {{release_path}} -h');
+});
+*/
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
