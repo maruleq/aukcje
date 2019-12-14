@@ -70,7 +70,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "*"
+            "touch .env"
         ]
 
     },
