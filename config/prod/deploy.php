@@ -12,7 +12,7 @@ return new class extends DefaultDeployer
             // the absolute path of the remote server directory where the project is deployed
             ->deployDir('/home/marek/projects/aukcje')
             // the URL of the Git repository where the project code is hosted
-            ->repositoryUrl('git@github.com:maruleq/aukcje.git')
+            //->repositoryUrl('git@github.com:maruleq/aukcje.git')
             // the repository branch to deploy
             ->repositoryBranch('master')
             // the symphony enviroment
