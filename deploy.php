@@ -27,7 +27,7 @@ host('grabowskispace.pl')
     ->user('marek')
     ->set('branch', 'master')
     ->roles('app')
-    ->set('deploy_path', '~/projects/{{application}}');    
+    ->set('deploy_path', '/var/www/public_html{{application}}');    
     
 // Tasks
 
