@@ -27,7 +27,7 @@ host('grabowskispace.pl')
     ->user('marek')
     ->set('branch', 'master')
     ->roles('app')
-    ->set('deploy_path', '/var/www/public_html{{application}}');    
+    ->set('deploy_path', '/var/www/public_html/{{application}}');    
     
 // Tasks
 
@@ -35,12 +35,12 @@ task('build', function () {
     run('cd {{release_path}} && build');
 });
 
-/*
+
 task('update:permissions', function () {
-    run('chmod -R a+w {{release_path}}/bootstrap/cache');
+    //run('chmod -R a+w {{release_path}}/bootstrap/cache');
     run('chown -R {{user}}:{{user}} {{release_path}} -h');
 });
-*/
+
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
